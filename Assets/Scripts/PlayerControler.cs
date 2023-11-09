@@ -18,11 +18,9 @@ public class PlayerControler : MonoBehaviour
     public LayerMask layerMask;
 
     bool doubleJump = false;
-    bool checkLanded = false;
     float waitTime = 0;
 
     
- 
 
     void FixedUpdate()
     {
@@ -33,10 +31,18 @@ public class PlayerControler : MonoBehaviour
     public void OnMove(InputValue value)
     {
         input = value.Get<Vector2>();
+        if (input.y > 0)
+        {
+            OnJump();
+        }
+        else if (input.y < 0)
+        {
+            // Call Crouch Func Here
+        }
     }
 
 
-    public void OnJump(InputValue value)
+    public void OnJump()
     {
         // Check if player can jump (is on the ground or has jumped once and has not landed)
         bool check = IsGrounded();
@@ -57,8 +63,6 @@ public class PlayerControler : MonoBehaviour
     {
         if(Physics2D.BoxCast(_transform.position, boxSize, 0, -_transform.up, maxDistance, layerMask)) // Checks if on ground
         {
-            doubleJump = true;
-            checkLanded = true;  // Begins check to see when player lands to prevent double jumping after walking of edge
             return true;
         }
         else if (doubleJump) // if not on ground checks if can double jump
@@ -74,15 +78,13 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
-        if (checkLanded)  // Checks when the player has landed from a jump to disable double jump 
+        if (!doubleJump)  // Checks if player landed on ground after double jump
         {
             if (waitTime >= 1)  // waits 1 second before checking
             {
                 if (Physics2D.BoxCast(_transform.position, boxSize, 0, -_transform.up, maxDistance, layerMask))
                 {
-                    Debug.Log("landed");
-                    doubleJump = false;
-                    checkLanded = false;
+                    doubleJump = true;
                     waitTime = 0;
                 }
             }
