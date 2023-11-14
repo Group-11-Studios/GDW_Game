@@ -20,12 +20,17 @@ public class PlayerControler : MonoBehaviour
     bool doubleJump = false;
     float waitTime = 0;
 
+    bool facingRight = true;
+    float lastDash = 0.6f;
     
 
     void FixedUpdate()
     {
         // Left Right Movement
-        _transform.position += new Vector3(input.x / 100 * playerSpeed, 0 * playerSpeed);
+        if (lastDash > 0.6) // check if dashing if yes stop movement
+        {
+            _transform.position += new Vector3(input.x / 100 * playerSpeed, 0 * playerSpeed);
+        }
     }
 
     public void OnMove(InputValue value)
@@ -39,6 +44,18 @@ public class PlayerControler : MonoBehaviour
         {
             // Call Crouch Func Here
         }
+
+        // Update facing direction
+        if (input.x > 0)
+        {
+            facingRight = true;
+        }
+        else if (input.x < 0)
+        {
+            facingRight = false;
+        }
+
+
     }
 
 
@@ -55,6 +72,32 @@ public class PlayerControler : MonoBehaviour
         {
             // Double Jump From Air (Reduced Power)
             _rb.AddForce(Vector2.up * jumpForceAir);
+        }
+    }
+
+    public void OnDash()
+    {
+        if (facingRight && dashCoolDown())
+        {
+            _rb.AddForce(new Vector2(500, 0));
+            lastDash = 0;
+        }
+        else if (!facingRight && dashCoolDown())
+        {
+            _rb.AddForce(new Vector2(-500, 0));
+            lastDash = 0;
+        }
+    }
+
+    public bool dashCoolDown()
+    {
+        if (lastDash >= 0.6)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -78,6 +121,21 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
+        if (lastDash < 0.6)
+        {
+            if (_rb.velocity == new Vector2(0, _rb.velocity.y) && lastDash >= 0.1)
+            {
+                lastDash = 0.6f;
+            }
+
+            lastDash += Time.deltaTime;
+
+            if (lastDash >= 0.6)
+            {
+                _rb.velocity = new Vector3(0, _rb.velocity.y);
+            }
+        }
+
         if (!doubleJump)  // Checks if player landed on ground after double jump
         {
             if (waitTime >= 1)  // waits 1 second before checking
