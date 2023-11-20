@@ -22,6 +22,8 @@ public class PlayerControler : MonoBehaviour
 
     bool facingRight = true;
     float lastDash = 0.6f;
+
+    bool crouched = false;
     
 
     void FixedUpdate()
@@ -42,7 +44,7 @@ public class PlayerControler : MonoBehaviour
         }
         else if (input.y < 0)
         {
-            // Call Crouch Func Here
+            crouched = true;
         }
 
         // Update facing direction
@@ -61,6 +63,11 @@ public class PlayerControler : MonoBehaviour
 
     public void OnJump()
     {
+        if (crouched) 
+        { 
+            // Check For OneWay Colision
+        }
+
         // Check if player can jump (is on the ground or has jumped once and has not landed)
         bool check = IsGrounded();
         if (check && doubleJump)
