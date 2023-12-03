@@ -16,6 +16,7 @@ public class PlayerControler : MonoBehaviour
     public Vector3 boxSize;
     public float maxDistance;
     public LayerMask layerMask;
+    public LayerMask whatIsEnemies;
 
     bool doubleJump = false;
     float waitTime = 0;
@@ -119,6 +120,15 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
+    void DashAttack()
+    {
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(_transform.position, 1, whatIsEnemies);
+        for (int i = 0; i < enemiesToDamage.Length; i++)
+        {
+            enemiesToDamage[i].GetComponent<EnemyControler>().health -= 20 * Time.deltaTime;
+        }
+    }
+
     private void Update()
     {
         if (lastDash < 0.6)
@@ -129,6 +139,8 @@ public class PlayerControler : MonoBehaviour
             }
 
             lastDash += Time.deltaTime;
+
+            DashAttack();
 
             if (lastDash >= 0.6)
             {
@@ -152,5 +164,6 @@ public class PlayerControler : MonoBehaviour
             }
             
         }
+
     }
 }
