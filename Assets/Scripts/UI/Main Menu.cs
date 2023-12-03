@@ -65,9 +65,4 @@ public class MainMenu : MonoBehaviour
         mainMenuButton.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
