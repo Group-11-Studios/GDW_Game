@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 81188803}
-  - component: {fileID: 81188804}
   m_Layer: 0
   m_Name: Crush
   m_TagString: Untagged
@@ -148,32 +147,45 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 81188802}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 682217254}
-  m_Father: {fileID: 344097127}
+  m_Father: {fileID: 357303552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &81188804
-MonoBehaviour:
+--- !u!1 &88201426
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 81188802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3650b6d265f7408489c7df8d56b0b4af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPos: {fileID: 81188803}
-  attackRange: 3
-  whatIsEnemies:
-    serializedVersion: 2
-    m_Bits: 512
-  damage: 15
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 88201427}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &88201427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88201426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.041798, y: -5.5861363, z: -4.550969}
+  m_LocalScale: {x: -9.32, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &272926683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,8 +398,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 519420032}
-  - {fileID: 974501680}
-  - {fileID: 81188803}
+  - {fileID: 357303552}
   - {fileID: 597923459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -495,7 +506,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 344097127}
+  attackPos: {fileID: 974501680}
+  CrushPos: {fileID: 81188803}
   _rb: {fileID: 344097125}
+  attackPoints: {fileID: 357303552}
+  arrowPrefab: {fileID: 6487810128363482922, guid: 35c36a54a5189194cadc8e1b06bd4cae, type: 3}
   playerSpeed: 10
   jumpForce: 325
   jumpForceAir: 250
@@ -504,6 +519,42 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  EnemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!1 &357303551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 357303552}
+  m_Layer: 0
+  m_Name: AttackPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &357303552
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357303551}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 974501680}
+  - {fileID: 81188803}
+  m_Father: {fileID: 344097127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &359139584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1213,7 +1264,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974501680}
-  - component: {fileID: 974501681}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -1229,32 +1279,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974501679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1273351222}
-  m_Father: {fileID: 344097127}
+  m_Father: {fileID: 357303552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &974501681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974501679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dbb9b0a52df93e43ac280eca6e64865, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPos: {fileID: 974501680}
-  attackRange: 2
-  whatIsEnemies:
-    serializedVersion: 2
-    m_Bits: 512
-  damage: 10
 --- !u!1 &1273351221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2068,9 +2100,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1376423188050701904, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1376423188050701904, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512593904872787532, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063980336436964906, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5576449962148386756, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
       propertyPath: m_Name
       value: EnemyPatrol
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556053193175772658, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
+      propertyPath: health
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8129601658988094470, guid: 3bd50f1301603b741ba7ecbc7d19fa22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2223,3 +2275,4 @@ SceneRoots:
   - {fileID: 1707957171}
   - {fileID: 344097127}
   - {fileID: 3410441527511283155}
+  - {fileID: 88201427}
