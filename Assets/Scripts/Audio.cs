@@ -7,7 +7,8 @@ public class Audio : MonoBehaviour
 {
     AudioSource audioSource;
     AudioClip gameSong;
-    Slider mainMenuVolumeSlider;
+    Slider MainMenuVolumeSlider;
+    
     static public float volume = 0.4f;
 
     // Start is called before the first frame update
@@ -15,16 +16,16 @@ public class Audio : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        mainMenuVolumeSlider = transform.Find("Slider").GetComponent<Slider>();
+        MainMenuVolumeSlider = transform.Find("Slider").GetComponent<Slider>();
 
-        mainMenuVolumeSlider.onValueChanged.AddListener(ChangeVolume);
+        MainMenuVolumeSlider.onValueChanged.AddListener(ChangeVolume);
 
         //set volume at beginning of 0.5
-        mainMenuVolumeSlider.value = volume;
+        MainMenuVolumeSlider.value = volume;
     }
      public void ChangeVolume(float value)
     {
-        AudioListener.volume = mainMenuVolumeSlider.value;
+        AudioListener.volume = MainMenuVolumeSlider.value;
         volume = value;
     }
 
