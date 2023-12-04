@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControler : MonoBehaviour
 {
     [SerializeField] Transform _transform;
+    [SerializeField] Transform attackPos;
+    [SerializeField] Transform CrushPos;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] Transform attackPoints;
+    [SerializeField] GameObject arrowPrefab;
 
     private Vector2 input;
     public float playerSpeed = 8.0f;
@@ -16,6 +21,11 @@ public class PlayerControler : MonoBehaviour
     public Vector3 boxSize;
     public float maxDistance;
     public LayerMask layerMask;
+    public LayerMask EnemyLayer;
+
+    private float swordCool;
+    private float crushCool;
+    private float bowCool;
 
     bool doubleJump = false;
     float waitTime = 0;
@@ -51,10 +61,12 @@ public class PlayerControler : MonoBehaviour
         if (input.x > 0)
         {
             facingRight = true;
+            attackPoints.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
         else if (input.x < 0)
         {
             facingRight = false;
+            attackPoints.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
 
 
@@ -126,6 +138,66 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
+    void DashAttack()
+    {
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(_transform.position, 1, EnemyLayer);
+        for (int i = 0; i < enemiesToDamage.Length; i++)
+        {
+            enemiesToDamage[i].GetComponent<EnemyControler>().health -= 20 * Time.deltaTime;
+        }
+    }
+
+    public void OnSword()
+    {
+        if (Time.time >= swordCool + 0.15)
+        {
+            Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, 2, EnemyLayer);
+            for (int i = 0; i < enemiesToDamage.Length; i++)
+            {
+                enemiesToDamage[i].GetComponent<EnemyControler>().health -= 10;
+            }
+            swordCool = Time.time;
+        }
+    }
+
+    public void OnCrush()
+    {
+
+        if (Time.time >= crushCool + 0.4)
+        {
+            Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(CrushPos.position, 3, EnemyLayer);
+            for (int i = 0; i < enemiesToDamage.Length; i++)
+            {
+                enemiesToDamage[i].GetComponent<EnemyControler>().health -= 15;
+            }
+            crushCool = Time.time;
+        }
+    }
+
+    public void OnBow()
+    {
+        if (Time.time >= bowCool + 0)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                GameObject arrow = Instantiate(arrowPrefab, attackPos.position, Quaternion.identity);
+                if (facingRight)
+                {
+                    arrow.GetComponent<Rigidbody2D>().velocity = new Vector2(20, 0.0f);
+                }
+                else
+                {
+                    arrow.GetComponent<Rigidbody2D>().velocity = new Vector2(-20, 0.0f);
+                }
+                Destroy(arrow, 15);
+            }
+            bowCool = Time.time;
+        }
+    }
+
+
+
+
     private void Update()
     {
         if (lastDash < 0.6)
@@ -136,6 +208,8 @@ public class PlayerControler : MonoBehaviour
             }
 
             lastDash += Time.deltaTime;
+
+            DashAttack();
 
             if (lastDash >= 0.6)
             {
@@ -159,5 +233,6 @@ public class PlayerControler : MonoBehaviour
             }
             
         }
+
     }
 }
