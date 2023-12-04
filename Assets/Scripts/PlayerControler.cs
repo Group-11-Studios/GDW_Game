@@ -41,6 +41,8 @@ public class PlayerControler : MonoBehaviour
 
     bool end;
 
+    float timestart;
+
     private float swordCool;
     private float crushCool;
     private float bowCool;
@@ -253,7 +255,7 @@ public class PlayerControler : MonoBehaviour
             lose.SetActive(true);
         }
 
-        float endTime = Time.time;
+        float endTime = Time.time - timestart;
 
         int mins = Mathf.FloorToInt(endTime / 60);
         int secs = Mathf.FloorToInt(endTime % 60);
@@ -262,6 +264,11 @@ public class PlayerControler : MonoBehaviour
         time.text = mins.ToString() + ":" + secs.ToString();
     }
 
+
+    private void Start()
+    {
+        timestart = Time.time;
+    }
 
     private void Update()
     {
